@@ -38,9 +38,50 @@ class _AsyncPageState extends State<AsyncPage> {
     }
   }
 
+  Future<String> obtenerNombre() async {
+    print("Obteniendo nombre");
+    await Future.delayed(Duration(seconds: 2));
+    return "Jhonny";
+  }
+
+  Future<String> tarea1() {
+    return Future.delayed(Duration(seconds: 4), () {
+      return "Tarea 1 completada";
+    });
+  }
+
+  Future<int> dividir(int a, int b) async {
+    print("Analizando división");
+    if (b == 0) {
+      throw Exception("No se puede dividir entre 0");
+    }
+    await Future.delayed(Duration(seconds: 2));
+
+    return a ~/ b;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          try {
+            final int resultado = await dividir(10, 0);
+          } catch (e, stack) {
+            print("Hubo un error: $e");
+            print("Stack: $stack"); //ayuda a encontrar donde ocurre el error
+          }
+
+          // dividir(8, 0).then((respuesta) {
+          //   print(respuesta);
+          // });
+
+          // // Manera 1 de acceder al contenido
+          // tarea1().then((nombre) {
+          //   print("NOmbre");
+          // });
+        },
+      ),
       appBar: AppBar(title: Text("Programación asíncrona")),
       body: Center(
         child: Padding(
